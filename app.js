@@ -1,14 +1,14 @@
+async function getData() {
+  let data = await fetch("https://dummyjson.com/products");
+  let jsonData = await data.json();
+  let { products } = jsonData;
 
-async function getData () {
-    let data = await fetch("https://dummyjson.com/products");
-    let jsonData = await data.json();
-    let { products } = jsonData;
+  let allCards = document.getElementById("card_1");
 
-    let allCards = document.getElementById("card_1");
-
-    let cardsHTML = products.map(product => {
-        let { title, description, price, images } = product;
-        return `
+  let cardsHTML = products
+    .map((product) => {
+      let { title, description, price, images } = product;
+      return `
         <div class="col">
             <div class="card h-100">
                 <img src="${images[0]}" class="card-img-top" alt="${title}">
@@ -23,16 +23,93 @@ async function getData () {
             </div>
         </div>
         `;
-    }).join("");
+    })
+    .join("");
 
-    // Wrap all cards in one Bootstrap row
-    allCards.innerHTML = `
+  // Wrap all cards in one Bootstrap row
+  allCards.innerHTML = `
         <div class="row row-cols-1 row-cols-md-4 g-4">
             ${cardsHTML}
         </div>
     `;
 
-    console.log(jsonData);
+  console.log(jsonData);
 }
 
 getData();
+
+
+
+
+function showLogin(){
+  let showLog =  document.getElementById("authContainer")
+  showLog.style.display = showLog.style.display === "none" ? "block" : "none"
+}
+showLogin()
+
+
+
+class Person {
+    fullName
+    email
+    password
+    constructor(fullName, email, password) {
+        this.fullName = fullName,
+            this.email = email,
+            this.password = password
+    }
+}
+let users = JSON.parse(localStorage.getItem("users")) || []
+let userName = document.getElementById("username")
+let userEmail = document.getElementById("useremail")
+
+function registerUser(event) {
+    event.preventDefault()
+
+    let fullName = document.getElementById("fullName")
+    let email = document.getElementById("email")
+    let password = document.getElementById("password")
+
+    let usersFromStorage = JSON.parse(localStorage.getItem("users")) || []; 
+
+    let savedUser = usersFromStorage.find((element) => element.email === email.value)
+
+    if (savedUser?.email) {
+        alert("user already register he ")
+    } else {
+        let newUser = new Person(fullName.value, email.value, password.value)
+        usersFromStorage.push(newUser)
+        localStorage.setItem("users", JSON.stringify(usersFromStorage))
+    }
+
+    fullName.value = ""
+    email.value = ""
+    password.value = ""
+}
+
+
+function loginUser(event) {
+    event.preventDefault()
+    let email = document.getElementById("loginEmail")
+    let password = document.getElementById("loginPassword")
+    let usersFromStorage = JSON.parse(localStorage.getItem("users"))
+    let savedUser = usersFromStorage.find((element) => element.email === email.value)
+
+    if (savedUser?.email === email.value && savedUser?.password === password.value) {
+        alert("you have logged in successfully!")
+        localStorage.setItem("loggedinUser" , JSON.stringify(savedUser))
+        userName.innerHTML = savedUser.fullName
+        userEmail.innerHTML = savedUser.email
+    } else {
+        alert("Invalid credientials")
+    }
+    email.value = ""
+    password.value = ""
+
+}
+
+function logoutUser(){
+    localStorage.removeItem("loggedinUser")
+     userName.innerHTML = ''
+        userEmail.innerHTML = ''
+}
