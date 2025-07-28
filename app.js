@@ -18,6 +18,7 @@ async function getData() {
                     <div class="mt-auto d-flex justify-content-between align-items-center">
                         <span class="fw-bold text-success fs-5">$${price}</span>
                         <a href="#" class="btn btn-sm btn-outline-primary">Buy Now</a>
+                        <a href="./production/index.html?id=${product.id}" target="_blank" class="btn btn-sm btn-outline-secondary">View Details</a>
                     </div>
                 </div>
             </div>

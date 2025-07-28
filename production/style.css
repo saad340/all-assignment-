@@ -1,0 +1,9 @@
+.product-box {
+      max-width: 800px;
+      margin: auto;
+    }
+
+    .carousel img {
+      max-height: 400px;
+      object-fit: contain;
+    }
